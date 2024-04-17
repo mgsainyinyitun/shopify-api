@@ -3,6 +3,7 @@ package com.shopify.api.services.merchant;
 import com.shopify.api.message.merchant.MerchantCreateRequest;
 import com.shopify.api.message.merchant.MerchantCreateResponse;
 import com.shopify.api.message.merchant.MerchantDeleteRequest;
+import com.shopify.api.message.merchant.MerchantDeleteResponse;
 import com.shopify.api.message.merchant.MerchantListRequest;
 import com.shopify.api.message.merchant.MerchantListResponse;
 import com.shopify.api.message.merchant.MerchantUpdateRequest;
@@ -16,6 +17,6 @@ public interface MerchantService {
 	
 	MerchantUpdateResponse update(MerchantUpdateRequest merchantUpdateRequest);
 	
-	MerchantDeleteRequest delete(MerchantDeleteRequest merchantDeleteRequest);
+	MerchantDeleteResponse delete(MerchantDeleteRequest merchantDeleteRequest);
 	
 }

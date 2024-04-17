@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.shopify.api.message.merchant.MerchantCreateRequest;
 import com.shopify.api.message.merchant.MerchantCreateResponse;
 import com.shopify.api.message.merchant.MerchantDeleteRequest;
+import com.shopify.api.message.merchant.MerchantDeleteResponse;
 import com.shopify.api.message.merchant.MerchantListRequest;
 import com.shopify.api.message.merchant.MerchantListResponse;
 import com.shopify.api.message.merchant.MerchantResponse;
@@ -68,8 +69,13 @@ public class MerchantServiceImpl implements MerchantService {
 	}
 
 	@Override
-	public MerchantDeleteRequest delete(MerchantDeleteRequest merchantDeleteRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	public MerchantDeleteResponse delete(MerchantDeleteRequest request) {
+		MerchantDeleteResponse res = new MerchantDeleteResponse();
+		
+		MerchantEntity merchant;
+		merchant = merchantRepository.findById(request.getId()).get();
+		merchantRepository.delete(merchant);
+		res.setId(merchant.getId());
+		return res;
 	}
 }
