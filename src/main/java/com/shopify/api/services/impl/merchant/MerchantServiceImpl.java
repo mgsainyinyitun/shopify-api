@@ -29,6 +29,7 @@ public class MerchantServiceImpl implements MerchantService {
 	public MerchantCreateResponse create(MerchantCreateRequest merchantCreateRequest) {
 		MerchantEntity merchant = merchantCreateRequest.toMerchantEntity();
 		merchantRepository.save(merchant);
+
 		return new MerchantCreateResponse(merchant);
 	}
 

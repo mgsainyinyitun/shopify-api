@@ -2,6 +2,10 @@ package com.shopify.api.models.merchant;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,16 +24,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+@Getter
+@Setter
+@AllArgsConstructor
 @Entity
 @Table(name = "merchants")
 public class MerchantEntity {
 	public MerchantEntity() {
-	}
-
-	public MerchantEntity(String name, String description, int rating) {
-		this.name = name;
-		this.description = description;
-		this.rating = rating;
 	}
 
 	@Id
@@ -41,6 +42,8 @@ public class MerchantEntity {
 
 	private String description;
 	private int rating;
+
+	private Double lowerLimit;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "image_id",nullable = true)
@@ -56,68 +59,4 @@ public class MerchantEntity {
 
 	@OneToMany(mappedBy = "merchant", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProductEntity> products;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public int getRating() {
-		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public List<ProductEntity> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<ProductEntity> products) {
-		this.products = products;
-	}
-
-	public ImageEntity getImage() {
-		return image;
-	}
-
-	public void setImage(ImageEntity image) {
-		this.image = image;
-	}
 }
