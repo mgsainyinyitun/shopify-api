@@ -1,7 +1,7 @@
 package com.shopify.api.controller.merchant;
 
-import com.shopify.api.constant.TYPE;
-import com.shopify.api.message.ErrorMessageResponse;
+import com.shopify.api.constant.IMAGE_TYPE;
+import com.shopify.api.message.error.ErrorMessageResponse;
 import com.shopify.api.message.image.ImageRequest;
 import com.shopify.api.message.image.ImageUploadRequest;
 import com.shopify.api.message.image.ImageUploadResponse;
@@ -79,40 +79,6 @@ public class MerchantController {
 		} catch (Exception e) {
 			ErrorMessageResponse err = new ErrorMessageResponse("ERROR",e.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
-		}
-	}
-
-	@PostMapping("/image/get") ResponseEntity<?> getImage(@RequestBody ImageRequest request){
-		try{
-			byte[] image = imageService.getImage(request);
-			return  ResponseEntity.ok(image);
-		}catch (Exception e) {
-			ErrorMessageResponse err = new ErrorMessageResponse("ERR", e.getMessage());
-
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
-		}
-	}
-
-	@PostMapping("/image/upload")
-	public ResponseEntity<?> uploadImage(
-			@RequestParam("image") MultipartFile file,
-			@RequestParam("type") String type,
-			@RequestParam("ownerId") String ownerId
-	) throws IOException {
-		ImageUploadResponse res;
-		ImageUploadRequest req = new ImageUploadRequest();
-		try {
-			req.setType(TYPE.fromString(type));
-			req.setOwnerId(ownerId);
-			req.setUuid(req.generateUUID());
-			res = imageService.uploadImage(file,req);
-			return ResponseEntity.status(HttpStatus.OK).body(res);
-		} catch (Exception e) {
-			ErrorMessageResponse errRes = new ErrorMessageResponse(
-				"ERR:",
-				e.getMessage()
-			);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errRes);
 		}
 	}
 }

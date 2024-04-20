@@ -1,13 +1,13 @@
 package com.shopify.api.message.image;
 
-import com.shopify.api.constant.TYPE;
+import com.shopify.api.constant.IMAGE_TYPE;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class ImageUploadRequest {
-    TYPE type;
+    IMAGE_TYPE type;
 
     String ownerId;
 

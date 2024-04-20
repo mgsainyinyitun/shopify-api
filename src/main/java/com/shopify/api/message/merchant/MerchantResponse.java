@@ -22,5 +22,4 @@ public class MerchantResponse {
 		this.lowerLimit = merchant.getLowerLimit();
 		this.imageUuid = merchant.getImage().getUuid();
 	}
-
 }

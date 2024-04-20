@@ -1,10 +1,8 @@
 package com.shopify.api.controller.product;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.shopify.api.message.ErrorMessageResponse;
-import com.shopify.api.message.merchant.*;
+import com.shopify.api.message.error.ErrorMessageResponse;
 import com.shopify.api.message.product.*;
 import com.shopify.api.services.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

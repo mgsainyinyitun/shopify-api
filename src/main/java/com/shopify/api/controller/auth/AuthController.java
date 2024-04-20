@@ -2,6 +2,9 @@ package com.shopify.api.controller.auth;
 
 import java.util.Collections;
 
+import com.shopify.api.message.auth.LoginRequest;
+import com.shopify.api.message.auth.LoginResponse;
+import com.shopify.api.message.error.ErrorMessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,22 +56,25 @@ public class AuthController {
 	}
 	
 	@PostMapping("login")
-	public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDto) {
+	public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+		try {
+			Authentication authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+			String token = jwtTokenGenerator.generateToken(authentication);
 
-		String token = jwtTokenGenerator.generateToken(authentication);
+			UserEntity user = userRepository.findByUsername(request.getUsername()).get();
 
-		UserEntity user = userRepository.findByUsername(loginDto.getUsername()).get();
-
-		AuthResponseDTO authDTO = new AuthResponseDTO(token);
-		authDTO.setUsername(user.getUsername());
-		authDTO.setPhone(user.getPhone());
-		authDTO.setUid(user.getUid());
-
-		return new ResponseEntity<>(authDTO, HttpStatus.OK);
+			LoginResponse response = new LoginResponse(token);
+			response.setUsername(user.getUsername());
+			response.setPhone(user.getPhone());
+			response.setUid(user.getId());
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}catch (Exception e){
+			ErrorMessageResponse errorResponse = new ErrorMessageResponse("ERROR",e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+		}
 	}
 
 	@PostMapping("register")

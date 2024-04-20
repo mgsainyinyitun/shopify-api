@@ -53,10 +53,13 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests((requests) -> requests.requestMatchers("/", "/home").permitAll()
 						.requestMatchers("/api/auth/**").permitAll()
-						.requestMatchers("/api/merchant/**").permitAll()
+						.requestMatchers("/api/merchant/**").authenticated()
+						.requestMatchers("/api/image/**").authenticated()
 						.requestMatchers("/api/user/**").hasAnyRole("ADMIN","USER")
+						.requestMatchers("/api/product/**").hasAnyRole("ADMIN","USER")
+						.requestMatchers("/api/contract/**").hasAnyRole("ADMIN","USER")
+						.requestMatchers("/api/bank/**").hasAnyRole("ADMIN","USER")
 						.requestMatchers("/api/admin/**").hasRole("ADMIN")
-						.requestMatchers("/api/product/**").permitAll()
 						.anyRequest().authenticated())
 				.sessionManagement(
 						management -> management
@@ -69,7 +72,7 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	AuthenticationManager authticationManager(AuthenticationConfiguration authenticationConfiguration)
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
 			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
@@ -83,14 +86,6 @@ public class SecurityConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-//	@Bean
-//	public GrantedAuthoritiesMapper grantedAuthoritiesMapper() {
-//		SimpleAuthorityMapper authorityMapper = new SimpleAuthorityMapper();
-////		authorityMapper.setConvertToUpperCase(false); // Disable converting roles to uppercase
-//		authorityMapper.setPrefix(""); // Set the role prefix to empty string
-//		return authorityMapper;
-//	}
 
 	public CustomUserDetailsService getCustomUserDetailsService() {
 		return customUserDetailsService;

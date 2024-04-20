@@ -1,4 +1,4 @@
-package com.shopify.api.message;
+package com.shopify.api.message.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
