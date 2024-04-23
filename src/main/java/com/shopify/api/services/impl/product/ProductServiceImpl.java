@@ -3,6 +3,7 @@ package com.shopify.api.services.impl.product;
 import com.shopify.api.message.product.*;
 import com.shopify.api.models.merchant.MerchantEntity;
 import com.shopify.api.models.product.ProductEntity;
+import com.shopify.api.models.user.UserEntity;
 import com.shopify.api.repository.merchant.MerchantRepository;
 import com.shopify.api.repository.product.ProductRepository;
 import com.shopify.api.services.product.ProductService;
@@ -69,5 +70,12 @@ public class ProductServiceImpl implements ProductService {
         ProductDeleteResponse response = new ProductDeleteResponse();
         response.setId(product.getId());
         return response;
+    }
+
+    @Override
+    public TradeProductResponse tradeProduct(TradeProductRequest request, UserEntity user) {
+//        ProductEntity product = productRepository.findFirstByMerchantId(request.getMerchantId());
+        ProductEntity product = productRepository.findUnContractedProduct(user.getId()).get(0);
+        return new TradeProductResponse(product);
     }
 }

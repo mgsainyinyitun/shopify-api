@@ -34,6 +34,10 @@ public class ContractEntity {
 
     private boolean taskComplete=false;
 
+    private Integer currentTask=1;
+
+    private Integer totalTask;
+
     @ManyToOne
     @JoinColumn(name = "approve_by")
     private  UserEntity approveBy;

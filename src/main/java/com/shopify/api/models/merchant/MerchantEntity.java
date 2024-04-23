@@ -2,7 +2,9 @@ package com.shopify.api.models.merchant;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,18 +13,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.shopify.api.models.image.ImageEntity;
 import com.shopify.api.models.product.ProductEntity;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
 @Getter
 @Setter
@@ -44,6 +34,16 @@ public class MerchantEntity {
 	private int rating;
 
 	private Double lowerLimit;
+
+	private String uid;
+
+	@PostPersist
+	protected void onCreate() {
+		String uuid = UUID.randomUUID().toString();
+		String ID = String.valueOf(id);
+		String name = this.getClass().getSimpleName().replace("Entity","");
+		uid = name+ ID + uuid;
+	}
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "image_id",nullable = true)

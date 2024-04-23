@@ -15,7 +15,7 @@ public class JWTAuthEntryPoint implements AuthenticationEntryPoint{
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException authException) throws IOException, ServletException {
+			AuthenticationException authException) throws IOException {
 		System.out.println("msg:"+authException.getMessage());
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED,authException.getMessage());
 		response.getWriter().write("Invalid token");

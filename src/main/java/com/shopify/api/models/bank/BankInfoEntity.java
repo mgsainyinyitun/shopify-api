@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Entity
@@ -22,4 +24,13 @@ public class BankInfoEntity {
     @JoinColumn(name = "image_id",nullable = true)
     private ImageEntity image;
 
+    private String uid;
+
+    @PostPersist
+    protected void onCreate() {
+        String uuid = UUID.randomUUID().toString();
+        String ID = String.valueOf(id);
+        String name = this.getClass().getSimpleName().replace("Entity","");
+        uid = name+ ID + uuid;
+    }
 }

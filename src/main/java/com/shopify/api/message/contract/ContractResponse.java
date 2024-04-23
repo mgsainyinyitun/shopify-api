@@ -17,6 +17,10 @@ public class ContractResponse {
 
     private CONTRACT_STATUS status;
 
+    private Integer totalTasks;
+
+    private Integer currentTask;
+
     private LocalDateTime requestTime;
 
     public ContractResponse(ContractEntity contract){
@@ -24,5 +28,7 @@ public class ContractResponse {
         this.merchant =  new MerchantResponse(contract.getMerchant());
         this.status = contract.getStatus();
         this.requestTime = contract.getCreatedAt();
+        this.totalTasks = contract.getTotalTask();
+        this.currentTask = contract.getCurrentTask();
     }
 }

@@ -95,7 +95,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 			userRepository.deleteById(adminUserDeleteRequest.getId());
 			res.setId(adminUserDeleteRequest.getId());
 		} else if (adminUserDeleteRequest.getUid() != null) {
-			user = userRepository.findByUid(adminUserDeleteRequest.getUid()).get();
+			user = userRepository.findByUid(adminUserDeleteRequest.getUid());
 			user.getRoles().clear();
 			userRepository.deleteByUid(adminUserDeleteRequest.getUid());
 			res.setUid(adminUserDeleteRequest.getUid());

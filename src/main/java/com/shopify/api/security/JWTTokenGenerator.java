@@ -1,5 +1,6 @@
 package com.shopify.api.security;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,15 +21,17 @@ public class JWTTokenGenerator {
 		String username = authentication.getName();
 		Date currentDate = new Date();
 
-		Date expireDate = new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
-		
-		Date expirationDate = new Date(currentDate.getTime() + 10 * 60 * 1000);
+		// Date expireDate = new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
 
-//		Date expireDate = new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
-//		String token = Jwts.builder()
-//				.setSubject(username).setIssuedAt(currentDate).setExpiration(expireDate)
-//				.signWith(SignatureAlgorithm.HS512, SecurityConstants.JWT_SECRET).compact();
-		
+		// Expire in 10 minute
+		// Date expirationDate = new Date(currentDate.getTime() + 10 * 60 * 1000);
+
+		// Expire in 1 month
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(currentDate);
+		calendar.add(Calendar.MONTH, 1);
+		Date expirationDate = calendar.getTime();
+
 		String token = Jwts.builder()
 				.setSubject(username)
 				.setIssuedAt( new Date())
@@ -39,7 +42,7 @@ public class JWTTokenGenerator {
 		System.out.println("New token :");
 		System.out.println(token);
 		System.out.println("Expire Date:");
-		System.out.println(expireDate.toString());
+		System.out.println("SETTING DATE:" + expirationDate.toString());
 
 		return token;
 	}
@@ -75,8 +78,7 @@ public class JWTTokenGenerator {
 
         System.out.println("Expiration Date/Time: " + expirationDate);
 	}
-	
-	
+
 	public boolean validateToken(String token)throws AuthenticationCredentialsNotFoundException {
 		try {
 			Jwts.parserBuilder()
@@ -84,11 +86,9 @@ public class JWTTokenGenerator {
 			.build()
 			.parseClaimsJws(token);
 			return true;
-		} 
-		
+		}
 		catch (Exception ex) {
-			return false;
-//			throw new AuthenticationCredentialsNotFoundException("JWT was exprired or incorrect",ex.fillInStackTrace());
+			throw new AuthenticationCredentialsNotFoundException("JWT was exprired or incorrect",ex.fillInStackTrace());
 		}
 	}
 	

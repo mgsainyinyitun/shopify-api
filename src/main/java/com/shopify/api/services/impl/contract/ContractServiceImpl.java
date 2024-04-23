@@ -52,4 +52,16 @@ public class ContractServiceImpl implements ContractService {
         response.setContracts(resContracts);
         return response;
     }
+
+    @Override
+    public ContractResponse getCurrentContract(ContractRequest request) {
+        ContractEntity contract;
+        if(request.getMerchantId()!=null){
+            MerchantEntity merchant = merchantRepository.findById(request.getMerchantId()).get();
+            contract = contractRepository.findCurrentContractByMerchant(merchant);
+        }else{
+            contract = contractRepository.findCurrentContract();
+        }
+        return new ContractResponse(contract);
+    }
 }

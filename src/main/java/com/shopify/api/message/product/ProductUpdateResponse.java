@@ -14,11 +14,13 @@ public class ProductUpdateResponse {
     private String description;
     private Double commission;
     private Long merchantId;
+    private String uid;
 
     public void fromProductEntity(ProductEntity product){
         this.id = product.getId();
         this.name = product.getName();
         this.description = product.getDescription();
         this.commission = product.getCommission();
+        this.uid = product.getUid();
     }
 }

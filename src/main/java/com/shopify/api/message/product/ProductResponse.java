@@ -12,6 +12,7 @@ public class ProductResponse {
     private  String description;
     private  Double commission;
     private  Long merchantId;
+    private String uid;
 
     public ProductResponse(ProductEntity product) {
         this.id = product.getId();
@@ -19,5 +20,6 @@ public class ProductResponse {
         this.description = product.getDescription();
         this.commission = product.getCommission();
         this.merchantId = product.getMerchant().getId();
+        this.uid = product.getUid();
     }
 }

@@ -8,13 +8,5 @@ import lombok.Setter;
 @Setter
 public class ImageUploadRequest {
     IMAGE_TYPE type;
-
-    String ownerId;
-
-    String uuid;
-
-    public String generateUUID() {
-        String id = String.format("%1$15s", this.ownerId).replace(' ', '0');
-        return type.name() + id;
-    }
+    String uid;
 }

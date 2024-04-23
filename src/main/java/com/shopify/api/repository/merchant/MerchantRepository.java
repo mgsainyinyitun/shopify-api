@@ -9,7 +9,9 @@ import com.shopify.api.models.merchant.MerchantEntity;
 
 public interface MerchantRepository extends JpaRepository<MerchantEntity,Long>{
 	Optional<MerchantEntity> findByName(String name);
-	
+
+	MerchantEntity findByUid(String uuid);
+
 	List<MerchantEntity> findByRating(Integer rating);
 	
 }

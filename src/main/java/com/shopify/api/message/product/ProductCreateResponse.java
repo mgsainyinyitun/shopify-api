@@ -16,6 +16,7 @@ public class ProductCreateResponse {
     private Double commission;
     private Long merchantId;
     private Long id;
+    private String uid;
 
     public ProductCreateResponse(ProductEntity product) {
         this.id = product.getId();
@@ -23,5 +24,6 @@ public class ProductCreateResponse {
         this.description = product.getDescription();
         this.commission = product.getCommission();
         this.merchantId = product.getMerchant().getId();
+        this.uid = product.getUid();
     }
 }

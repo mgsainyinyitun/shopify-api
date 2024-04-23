@@ -1,7 +1,4 @@
 package com.shopify.api.controller.image;
-
-
-import com.shopify.api.constant.IMAGE_TYPE;
 import com.shopify.api.message.error.ErrorMessageResponse;
 import com.shopify.api.message.image.ImageRequest;
 import com.shopify.api.message.image.ImageUploadRequest;
@@ -12,9 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.awt.*;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/image")
@@ -40,16 +34,11 @@ public class ImageController {
     @PostMapping("/upload")
     public ResponseEntity<?> uploadImage(
             @RequestParam("image") MultipartFile file,
-            @RequestParam("type") String type,
-            @RequestParam("ownerId") String ownerId
-    ) throws IOException {
+            @ModelAttribute ImageUploadRequest request
+    )  {
         ImageUploadResponse res;
-        ImageUploadRequest req = new ImageUploadRequest();
         try {
-            req.setType(IMAGE_TYPE.fromString(type));
-            req.setOwnerId(ownerId);
-            req.setUuid(req.generateUUID());
-            res = imageService.uploadImage(file,req);
+            res = imageService.uploadImage(file,request);
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } catch (Exception e) {
             ErrorMessageResponse errRes = new ErrorMessageResponse(

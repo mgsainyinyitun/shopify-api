@@ -1,7 +1,9 @@
 package com.shopify.api.models.product;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,18 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.shopify.api.models.image.ImageEntity;
 import com.shopify.api.models.merchant.MerchantEntity;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
 
 @Getter
@@ -38,6 +28,20 @@ public class ProductEntity {
     private String description;
 
 	private  Double commission;
+
+	private String uid;
+
+	private Double price=0.0;
+
+	private Integer rating=1;
+
+	@PostPersist
+	protected void onCreate() {
+		String uuid = UUID.randomUUID().toString();
+		String ID = String.valueOf(id);
+		String name = this.getClass().getSimpleName().replace("Entity","");
+		uid = name+ ID + uuid;
+	}
 
     @ManyToOne
     @JoinColumn(name = "merchant_id")

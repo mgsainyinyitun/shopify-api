@@ -4,7 +4,10 @@ import java.util.List;
 
 import com.shopify.api.message.error.ErrorMessageResponse;
 import com.shopify.api.message.product.*;
+import com.shopify.api.models.user.UserEntity;
+import com.shopify.api.security.UserUtils;
 import com.shopify.api.services.product.ProductService;
+import com.shopify.api.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,24 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    UserService userService;
+
+
+    @GetMapping("/request-trade")
+    public ResponseEntity<?> tradeProductRequest(@ModelAttribute TradeProductRequest request) {
+        TradeProductResponse response;
+        try {
+            UserEntity user = getUser();
+            response = productService.tradeProduct(request,user);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ErrorMessageResponse err = new ErrorMessageResponse("ERROR", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        }
+    }
+
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody ProductCreateRequest request) {
@@ -66,5 +87,14 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
         }
     }
-
+    UserEntity getUser(){
+        UserEntity user;
+        String username = UserUtils.getLoginUserName();
+        if(username!=null){
+            user = userService.getUserByUsername(username);
+        }else{
+            user = null;
+        }
+        return user;
+    }
 }
