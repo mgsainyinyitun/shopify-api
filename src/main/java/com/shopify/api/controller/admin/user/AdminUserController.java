@@ -27,7 +27,7 @@ import com.shopify.api.services.admin.user.AdminUserService;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins="*")
 public class AdminUserController {
 	
 	@Autowired
