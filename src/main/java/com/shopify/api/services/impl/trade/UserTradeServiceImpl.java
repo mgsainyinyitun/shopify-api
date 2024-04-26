@@ -37,6 +37,8 @@ public class UserTradeServiceImpl implements UserTradeService {
     @Override
     public UserTradeResponse trade(UserTradeRequest request, UserEntity user) {
         ProductEntity product = productRepository.findById(request.getProductId()).get();
+        ContractEntity contract = contractRepository.findByStatusIsApproveForUser(user.getId());
+        
         int blCmp = user.getBalance().compareTo(product.getPrice());
         if(blCmp < 0){
             throw new BalanceInsufficientException("User balance is insufficient for trade this product!");
