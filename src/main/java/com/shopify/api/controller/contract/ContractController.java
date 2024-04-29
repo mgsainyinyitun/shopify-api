@@ -1,6 +1,7 @@
 package com.shopify.api.controller.contract;
 
 
+import com.mysql.cj.jdbc.exceptions.SQLError;
 import com.shopify.api.message.contract.*;
 import com.shopify.api.message.error.ErrorMessageResponse;
 import com.shopify.api.models.user.UserEntity;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
 
 @RestController
 @RequestMapping("/api/contract")
@@ -32,7 +35,8 @@ public class ContractController {
             UserEntity user = getUser();
             response = contractService.signContract(request,user);
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             ErrorMessageResponse err = new ErrorMessageResponse("ERROR", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
         }

@@ -1,5 +1,6 @@
 package com.shopify.api.services.impl.trade;
 
+import com.shopify.api.constant.CONTRACT_STATUS;
 import com.shopify.api.constant.TRADING_STATE;
 import com.shopify.api.exceptions.BalanceInsufficientException;
 import com.shopify.api.exceptions.UserMembershipInsufficientException;
@@ -37,6 +38,10 @@ public class UserTradeServiceImpl implements UserTradeService {
     @Override
     public UserTradeResponse trade(UserTradeRequest request, UserEntity user) {
         ProductEntity product = productRepository.findById(request.getProductId()).get();
+        ContractEntity contract = contractRepository.findByStatusIsApproveForUser(user.getId());
+        if(contract.getCurrentTask()>contract.getTotalTask()){
+            throw new IllegalStateException("Contract Tasks is finished!");
+        }
         int blCmp = user.getBalance().compareTo(product.getPrice());
         if(blCmp < 0){
             throw new BalanceInsufficientException("User balance is insufficient for trade this product!");
@@ -50,11 +55,6 @@ public class UserTradeServiceImpl implements UserTradeService {
         tradeHistory.setTaskNumber(request.getTaskNumber());
         tradeHistory.setState(TRADING_STATE.PENDING);
         tradeHistory.setOrderPrice(product.getPrice());
-
-//        ContractEntity contract = contractRepository.findByStatusIsApproveForUser(user.getId());
-//        contract.setCurrentTask(request.getTaskNumber() + 1);
-//        contractRepository.save(contract);
-
         tradeHistoryRepository.save(tradeHistory);
         return new UserTradeResponse(tradeHistory);
     }
@@ -63,18 +63,21 @@ public class UserTradeServiceImpl implements UserTradeService {
     public UserTradeFinishedResponse tradeFinished(UserTradeFinishedRequest request, UserEntity user) {
         TradeHistoryEntity trade = tradeHistoryRepository.findById(request.getTradeId()).get();
         ContractEntity contract = contractRepository.findByStatusIsApproveForUser(user.getId());
-
         trade.setState(TRADING_STATE.FINISHED);
-        contract.setCurrentTask(contract.getCurrentTask() + 1);
-        tradeHistoryRepository.save(trade);
-        contractRepository.save(contract);
-
         Double balance = user.getBalance();
         Double commission = (trade.getOrderPrice() * trade.getProduct().getCommission())/100;
         user.setBalance(balance+commission);
         user.setRevenue(user.getRevenue()+commission);
-        userRepository.save(user);
 
+        contract.setFinishedTask(contract.getFinishedTask()+1);
+        contract.setCurrentTask(contract.getCurrentTask()+1);
+        if(contract.getFinishedTask().equals(contract.getTotalTask())){
+            contract.setTaskComplete(true);
+            contract.setStatus(CONTRACT_STATUS.FINISHED);
+        }
+        tradeHistoryRepository.save(trade);
+        userRepository.save(user);
+        contractRepository.save(contract);
         return new UserTradeFinishedResponse(trade);
     }
 }

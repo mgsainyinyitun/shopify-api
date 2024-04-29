@@ -37,6 +37,9 @@ public class ContractServiceImpl implements ContractService {
         contract.setMerchant(merchant);
         contract.setUser(user);
         contract.setStatus(CONTRACT_STATUS.PENDING);
+        contract.setTotalTask(12);
+        contract.setCurrentTask(1);
+        contract.setFinishedTask(0);
         contractRepository.save(contract);
         return new ContractSignResponse(contract);
     }
@@ -61,6 +64,9 @@ public class ContractServiceImpl implements ContractService {
             contract = contractRepository.findCurrentContractByMerchant(merchant);
         }else{
             contract = contractRepository.findCurrentContract();
+        }
+        if(contract==null){
+            return  null;
         }
         return new ContractResponse(contract);
     }
