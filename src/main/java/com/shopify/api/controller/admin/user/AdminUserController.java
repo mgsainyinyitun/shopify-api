@@ -33,6 +33,12 @@ public class AdminUserController {
 	@Autowired
 	AdminUserService adminUserService;
 
+	@GetMapping("/user/all")
+	public ResponseEntity<?> all(){
+		return null;
+	}
+	
+	
 	@PostMapping("/user/create")
 	public ResponseEntity<AdminUserCreateResponse> create(@RequestBody AdminUserCreateRequest adminUserCreateRequest) {
 		AdminUserCreateResponse res = new AdminUserCreateResponse();
