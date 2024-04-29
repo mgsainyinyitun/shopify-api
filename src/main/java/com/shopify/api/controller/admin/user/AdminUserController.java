@@ -27,12 +27,18 @@ import com.shopify.api.services.admin.user.AdminUserService;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins="*")
 public class AdminUserController {
 	
 	@Autowired
 	AdminUserService adminUserService;
 
+	@GetMapping("/user/all")
+	public ResponseEntity<?> all(){
+		return null;
+	}
+	
+	
 	@PostMapping("/user/create")
 	public ResponseEntity<AdminUserCreateResponse> create(@RequestBody AdminUserCreateRequest adminUserCreateRequest) {
 		AdminUserCreateResponse res = new AdminUserCreateResponse();

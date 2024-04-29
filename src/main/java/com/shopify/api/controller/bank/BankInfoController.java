@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/bank")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins="*")
 public class BankInfoController {
 
     @Autowired

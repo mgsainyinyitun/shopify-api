@@ -19,7 +19,7 @@ import java.sql.SQLException;
 
 @RestController
 @RequestMapping("/api/contract")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins="*")
 public class ContractController {
 
     @Autowired

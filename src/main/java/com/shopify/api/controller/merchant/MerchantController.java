@@ -26,7 +26,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/merchant")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins="*")
 public class MerchantController {
 	@Autowired
 	MerchantService merchantService;
