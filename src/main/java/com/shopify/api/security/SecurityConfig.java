@@ -60,6 +60,7 @@ public class SecurityConfig {
 						.requestMatchers("/api/contract/**").hasAnyRole("ADMIN","USER")
 						.requestMatchers("/api/bank/**").hasAnyRole("ADMIN","USER")
 						.requestMatchers("/api/admin/**").hasRole("ADMIN")
+//						.requestMatchers("/api/admin/").permitAll()
 						.anyRequest().authenticated())
 				.sessionManagement(
 						management -> management

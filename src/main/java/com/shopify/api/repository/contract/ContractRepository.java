@@ -11,6 +11,8 @@ import java.util.List;
 public interface ContractRepository extends JpaRepository<ContractEntity, Long> {
     List<ContractEntity> findAllByUserId(Long userId);
 
+    List<ContractEntity> findAllByUserUid(String uid);
+
     @Query("SELECT c FROM ContractEntity  c WHERE c.user.id=:userId AND c.status = 'approved'")
     ContractEntity findByStatusIsApproveForUser(@Param("userId") Long id);
 

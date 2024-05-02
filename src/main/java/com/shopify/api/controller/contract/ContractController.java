@@ -2,6 +2,8 @@ package com.shopify.api.controller.contract;
 
 
 import com.mysql.cj.jdbc.exceptions.SQLError;
+import com.shopify.api.message.admin.user.AdminUserContractHistListRequest;
+import com.shopify.api.message.admin.user.AdminUserContractHistListResponse;
 import com.shopify.api.message.contract.*;
 import com.shopify.api.message.error.ErrorMessageResponse;
 import com.shopify.api.models.user.UserEntity;
@@ -66,6 +68,18 @@ public class ContractController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
         }
     }
+
+    @GetMapping("/trade-user/contracts")
+    public ResponseEntity<?> userContracts(@ModelAttribute AdminUserContractHistListRequest request){
+        try {
+            AdminUserContractHistListResponse res = contractService.getContractsList(request);
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
+            ErrorMessageResponse err = new ErrorMessageResponse("ERROR", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        }
+    }
+
 
     UserEntity getUser(){
         UserEntity user;

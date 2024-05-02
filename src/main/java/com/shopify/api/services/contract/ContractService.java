@@ -1,5 +1,7 @@
 package com.shopify.api.services.contract;
 
+import com.shopify.api.message.admin.user.AdminUserContractHistListRequest;
+import com.shopify.api.message.admin.user.AdminUserContractHistListResponse;
 import com.shopify.api.message.contract.*;
 import com.shopify.api.models.user.UserEntity;
 
@@ -10,4 +12,5 @@ public interface ContractService {
 
     ContractResponse getCurrentContract(ContractRequest request);
 
+    AdminUserContractHistListResponse getContractsList(AdminUserContractHistListRequest request);
 }

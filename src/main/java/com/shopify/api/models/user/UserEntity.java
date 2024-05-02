@@ -56,11 +56,15 @@ public class UserEntity {
 		String uuid = UUID.randomUUID().toString();
 		String ID = String.valueOf(id);
 		String name = this.getClass().getSimpleName().replace("Entity","");
-		uid = name+ ID + uuid;
+		iuid = name+ ID + uuid;
+		uid = this.branch.getCode() + String.format("%06d",id);
 	}
 
 	@Column(name = "uid", nullable = true, unique = true)
 	private String uid;
+
+	@Column(name = "iuid",nullable = true,unique = true)
+	private String iuid;
 
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false, updatable = false)

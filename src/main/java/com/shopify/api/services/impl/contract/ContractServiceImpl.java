@@ -3,6 +3,9 @@ package com.shopify.api.services.impl.contract;
 import com.shopify.api.constant.CONTRACT_STATUS;
 import com.shopify.api.exceptions.BalanceInsufficientException;
 import com.shopify.api.exceptions.UserMembershipInsufficientException;
+import com.shopify.api.message.admin.user.AdminUserContractHistListRequest;
+import com.shopify.api.message.admin.user.AdminUserContractHistListResponse;
+import com.shopify.api.message.admin.user.AdminUserContractHistoryResponse;
 import com.shopify.api.message.contract.*;
 import com.shopify.api.models.contract.ContractEntity;
 import com.shopify.api.models.merchant.MerchantEntity;
@@ -12,6 +15,7 @@ import com.shopify.api.repository.merchant.MerchantRepository;
 import com.shopify.api.services.contract.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,5 +73,18 @@ public class ContractServiceImpl implements ContractService {
             return  null;
         }
         return new ContractResponse(contract);
+    }
+
+    @Override
+    public AdminUserContractHistListResponse getContractsList( AdminUserContractHistListRequest request) {
+        AdminUserContractHistListResponse response = new AdminUserContractHistListResponse();
+        List<AdminUserContractHistoryResponse> contracts = new ArrayList<>();
+        List<ContractEntity> dbContracts = contractRepository.findAllByUserUid(request.getUid());
+
+        for(ContractEntity contract : dbContracts){
+            contracts.add(new AdminUserContractHistoryResponse(contract));
+        }
+        response.setContracts(contracts);
+        return response;
     }
 }
