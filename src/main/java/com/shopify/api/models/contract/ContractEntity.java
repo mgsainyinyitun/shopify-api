@@ -26,7 +26,7 @@ public class ContractEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "merchant_id",unique = true)
+    @JoinColumn(name = "merchant_id")
     private MerchantEntity merchant;
 
     @Enumerated(EnumType.STRING)

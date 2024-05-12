@@ -35,14 +35,14 @@ public class UserEntity {
 	@Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
 	private boolean freeze = false;
 
-	private int membership;
+	private int membership=1;
 
 	private String country;
 
 	private String language;
 
 	@Column(columnDefinition = "DOUBLE DEFAULT 0.0")
-	private Double balance = 0.0;
+	private Double balance = 10.0;
 
 	@Column(columnDefinition = "DOUBLE DEFAULT 0.0")
 	private Double revenue = 0.0;

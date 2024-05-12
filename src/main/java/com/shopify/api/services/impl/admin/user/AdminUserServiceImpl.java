@@ -137,6 +137,16 @@ public class AdminUserServiceImpl implements AdminUserService {
 		return new AdminTradeUserResponse(user);
 	}
 
+	@Override
+	public AdminUserBalanceIncreaseResponse increaseBalance(AdminUserBalanceIncreaseRequest request) {
+		UserEntity user = userRepository.findByUid(request.getUid());
+		user.setBalance(user.getBalance()+request.getAmount());
+		userRepository.save(user);
+		AdminUserBalanceIncreaseResponse res = new AdminUserBalanceIncreaseResponse();
+		res.setBalance(user.getBalance());
+		return res;
+	}
+
 	/**
 	 * Update user API, accessible only to 'ADMIN' users.
 	 * @param AdminUserUpdateRequest The request object containing user creation details.

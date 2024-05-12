@@ -108,4 +108,16 @@ public class AdminUserController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
 		}
 	}
+
+	@PostMapping("/user/balance/increase")
+	public ResponseEntity<?> increaseBalance(@RequestBody AdminUserBalanceIncreaseRequest request) {
+		try {
+			AdminUserBalanceIncreaseResponse
+			res = adminUserService.increaseBalance(request);
+			return ResponseEntity.ok(res);
+		} catch (Exception e) {
+			ErrorMessageResponse err = new ErrorMessageResponse("ERROR", e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+		}
+	}
 }

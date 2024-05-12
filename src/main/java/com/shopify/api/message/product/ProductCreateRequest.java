@@ -15,12 +15,14 @@ public class ProductCreateRequest {
     private String description;
     private Double commission;
     private Long merchantId;
+    private Double price;
 
     public ProductEntity toProductEntity() {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(name);
         productEntity.setDescription(description);
         productEntity.setCommission(commission);
+        productEntity.setPrice(price);
         return productEntity;
     }
 }

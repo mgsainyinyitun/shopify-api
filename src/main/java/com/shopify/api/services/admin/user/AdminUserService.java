@@ -16,4 +16,6 @@ public interface AdminUserService {
     AdminUsersListResponse list(AdminUserListRequest request);
 
     AdminTradeUserResponse detail(AdminTradeUserRequest request);
+
+    AdminUserBalanceIncreaseResponse increaseBalance(AdminUserBalanceIncreaseRequest request);
 }

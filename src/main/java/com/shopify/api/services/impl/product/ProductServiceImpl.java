@@ -74,8 +74,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public TradeProductResponse tradeProduct(TradeProductRequest request, UserEntity user) {
-//        ProductEntity product = productRepository.findFirstByMerchantId(request.getMerchantId());
-        ProductEntity product = productRepository.findUnContractedProduct(user.getId()).get(0);
+        ProductEntity product = productRepository.findUnContractedProduct(user.getId(),request.getMerchantId()).get(0);
         return new TradeProductResponse(product);
     }
 }
