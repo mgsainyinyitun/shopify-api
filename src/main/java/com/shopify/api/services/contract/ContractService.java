@@ -11,7 +11,7 @@ public interface ContractService {
 
     ContractListResponse listContracts(ContractListRequest request,UserEntity user);
 
-    ContractResponse getCurrentContract(ContractRequest request);
+    ContractResponse getCurrentContract(ContractRequest request,UserEntity user);
 
     AdminUserContractHistListResponse getContractsList(AdminUserContractHistListRequest request);
 

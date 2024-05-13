@@ -18,4 +18,6 @@ public interface AdminUserService {
     AdminTradeUserResponse detail(AdminTradeUserRequest request);
 
     AdminUserBalanceIncreaseResponse increaseBalance(AdminUserBalanceIncreaseRequest request);
+
+    AdminUserMembershipChangeResponse membershipChange(AdminUserMembershipChangeRequest request);
 }

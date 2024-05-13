@@ -43,7 +43,7 @@ public class ContractController {
     public ResponseEntity<?> getContract(@ModelAttribute ContractRequest request){
         try{
             ContractResponse response;
-            response = contractService.getCurrentContract(request);
+            response = contractService.getCurrentContract(request,getUser());
             return  ResponseEntity.ok(response);
         }catch (Exception e){
             ErrorMessageResponse err = new ErrorMessageResponse("ERROR", e.getMessage());

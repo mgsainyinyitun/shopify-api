@@ -147,6 +147,16 @@ public class AdminUserServiceImpl implements AdminUserService {
 		return res;
 	}
 
+	@Override
+	public AdminUserMembershipChangeResponse membershipChange(AdminUserMembershipChangeRequest request) {
+		UserEntity user = userRepository.findByUid(request.getUid());
+		user.setMembership(request.getMembership());
+		userRepository.save(user);
+		AdminUserMembershipChangeResponse res = new AdminUserMembershipChangeResponse();
+		res.setMembership(user.getMembership());
+		return res;
+	}
+
 	/**
 	 * Update user API, accessible only to 'ADMIN' users.
 	 * @param AdminUserUpdateRequest The request object containing user creation details.

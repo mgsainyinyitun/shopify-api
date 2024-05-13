@@ -1,5 +1,6 @@
 package com.shopify.api.services.impl.trade;
 
+import com.shopify.api.constant.CONTRACT_STATUS;
 import com.shopify.api.constant.TRADING_STATE;
 import com.shopify.api.exceptions.BalanceInsufficientException;
 import com.shopify.api.exceptions.UserMembershipInsufficientException;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserTradeServiceImpl implements UserTradeService {
@@ -70,13 +72,19 @@ public class UserTradeServiceImpl implements UserTradeService {
         trade.setState(TRADING_STATE.FINISHED);
         contract.setCurrentTask(contract.getCurrentTask() + 1);
         contract.setFinishedTask(contract.getFinishedTask() + 1);
+
+        if(Objects.equals(contract.getFinishedTask(), contract.getTotalTask())){
+            contract.setTaskComplete(true);
+            contract.setStatus(CONTRACT_STATUS.FINISHED);
+        }
+
         tradeHistoryRepository.save(trade);
         contractRepository.save(contract);
 
         Double balance = user.getBalance();
         Double commission = (trade.getOrderPrice() * trade.getProduct().getCommission())/100;
-        user.setBalance(NumberFormatUtils.round( balance+commission,1));
-        user.setRevenue(NumberFormatUtils.round(user.getRevenue()+commission,1))  ;
+        user.setBalance(NumberFormatUtils.round( balance+commission,3));
+        user.setRevenue(NumberFormatUtils.round(user.getRevenue()+commission,3))  ;
         userRepository.save(user);
 
         return new UserTradeFinishedResponse(trade);

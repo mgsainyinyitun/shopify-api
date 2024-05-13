@@ -21,6 +21,8 @@ import com.shopify.api.repository.merchant.MerchantRepository;
 import com.shopify.api.repository.product.ProductRepository;
 import com.shopify.api.services.contract.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -76,16 +78,16 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public ContractResponse getCurrentContract(ContractRequest request) {
+    public ContractResponse getCurrentContract(ContractRequest request, UserEntity user) {
         ContractEntity contract;
         if(request.getMerchantId()!=null){
             MerchantEntity merchant = merchantRepository.findById(request.getMerchantId()).get();
             contract = contractRepository.findCurrentContractByMerchant(merchant);
         }else{
-            contract = contractRepository.findCurrentContract();
+            contract = contractRepository.findCurrentContract(user.getId());
         }
         if(contract==null){
-            return  null;
+           return null;
         }
         return new ContractResponse(contract);
     }

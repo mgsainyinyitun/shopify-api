@@ -120,4 +120,16 @@ public class AdminUserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 		}
 	}
+
+	@PostMapping("/user/membership/change")
+	public ResponseEntity<?> membershipChange(@RequestBody AdminUserMembershipChangeRequest request) {
+		try {
+			AdminUserMembershipChangeResponse
+					res = adminUserService.membershipChange(request);
+			return ResponseEntity.ok(res);
+		} catch (Exception e) {
+			ErrorMessageResponse err = new ErrorMessageResponse("ERROR", e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+		}
+	}
 }

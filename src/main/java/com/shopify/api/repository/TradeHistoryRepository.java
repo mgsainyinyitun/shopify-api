@@ -14,4 +14,6 @@ public interface TradeHistoryRepository extends JpaRepository<TradeHistoryEntity
     @Query("select t from TradeHistoryEntity  t where t.state = 'NOT_START' OR t.state='PENDING' AND t.user.id = :userId AND t.product.id=:productId")
     List<TradeHistoryEntity> findCurrentTrades(@Param("userId") Long userId, @Param("productId") Long productId);
 
+    @Query("select t from TradeHistoryEntity  t where  t.user.id = :userId AND (t.state = 'NOT_START' OR t.state='PENDING')")
+    List<TradeHistoryEntity> findCurrentTrades(@Param("userId") Long userId);
 }
