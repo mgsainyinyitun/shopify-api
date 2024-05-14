@@ -1,6 +1,7 @@
 package com.shopify.api.message.withdraw;
 
 import com.shopify.api.constant.WITHDRAW;
+import com.shopify.api.message.bank.BankInfoResponse;
 import com.shopify.api.models.bank.BankInfoEntity;
 import com.shopify.api.models.withdraw.WithdrawEntity;
 import lombok.Getter;
@@ -27,7 +28,9 @@ public class UserWithdrawResponse {
 
     private String phone;
 
-    private BankInfoEntity bankInfo;
+//    private BankInfoEntity bankInfo;
+
+    private BankInfoResponse bankInfoResponse = new BankInfoResponse();
 
     public UserWithdrawResponse(WithdrawEntity withdraw) {
         this.id = withdraw.getId();
@@ -38,6 +41,11 @@ public class UserWithdrawResponse {
         this.identification = withdraw.getBank().getIdentification();
         this.email = withdraw.getBank().getEmail();
         this.phone = withdraw.getBank().getPhone();
-        this.bankInfo = withdraw.getBank().getBank();
+//        this.bankInfo = withdraw.getBank().getBank();
+        this.bankInfoResponse.setId(withdraw.getBank().getId());
+        this.bankInfoResponse.setName(withdraw.getBank().getName());
+        if(withdraw.getBank().getBank()!=null){
+            this.bankInfoResponse.setImageId(withdraw.getBank().getBank().getImage().getUuid());
+        }
     }
 }

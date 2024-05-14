@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.shopify.api.message.admin.user.*;
+import com.shopify.api.utils.NumberFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -140,7 +141,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 	@Override
 	public AdminUserBalanceIncreaseResponse increaseBalance(AdminUserBalanceIncreaseRequest request) {
 		UserEntity user = userRepository.findByUid(request.getUid());
-		user.setBalance(user.getBalance()+request.getAmount());
+		user.setBalance(NumberFormatUtils.round( user.getBalance()+request.getAmount(),2));
 		userRepository.save(user);
 		AdminUserBalanceIncreaseResponse res = new AdminUserBalanceIncreaseResponse();
 		res.setBalance(user.getBalance());
