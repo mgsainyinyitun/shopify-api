@@ -21,13 +21,12 @@ import com.shopify.api.repository.merchant.MerchantRepository;
 import com.shopify.api.repository.product.ProductRepository;
 import com.shopify.api.services.contract.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class ContractServiceImpl implements ContractService {
@@ -123,6 +122,11 @@ public class ContractServiceImpl implements ContractService {
         ContractEntity contract = contractRepository.findById(request.getContractId()).get();
         contract.setStatus(CONTRACT_STATUS.APPROVED);
         List<ProductEntity> products = productRepository.findAllByMerchantId(contract.getMerchant().getId());
+        Random random = new Random();
+
+        // Shuffle the list using the Random instance
+        Collections.shuffle(products, random);
+
         contract.setTotalTask(products.size());
         int taskNo = 1;
         for(ProductEntity product:products){

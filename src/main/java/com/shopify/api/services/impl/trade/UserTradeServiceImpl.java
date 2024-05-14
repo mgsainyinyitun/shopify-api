@@ -53,7 +53,8 @@ public class UserTradeServiceImpl implements UserTradeService {
 //        tradeHistory.setState(TRADING_STATE.PENDING);
 //        tradeHistory.setOrderPrice(product.getPrice());
 
-          TradeHistoryEntity tradeHistory = tradeHistoryRepository.findCurrentTrades(user.getId(),request.getProductId()).get(0);
+//          TradeHistoryEntity tradeHistory = tradeHistoryRepository.findCurrentTrades(user.getId(),request.getProductId()).get(0);
+        TradeHistoryEntity tradeHistory = tradeHistoryRepository.findById(request.getTradeId()).get();
 
 //        ContractEntity contract = contractRepository.findByStatusIsApproveForUser(user.getId());
 //        contract.setCurrentTask(request.getTaskNumber() + 1);
