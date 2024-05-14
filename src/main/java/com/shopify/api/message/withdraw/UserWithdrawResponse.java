@@ -35,7 +35,6 @@ public class UserWithdrawResponse {
         this.username = withdraw.getUser().getUsername();
         this.amount = withdraw.getAmount();
         this.status = withdraw.getStatus();
-        this.account = withdraw.getBank().getAccount();
         this.identification = withdraw.getBank().getIdentification();
         this.email = withdraw.getBank().getEmail();
         this.phone = withdraw.getBank().getPhone();

@@ -122,10 +122,10 @@ public class ContractServiceImpl implements ContractService {
         ContractEntity contract = contractRepository.findById(request.getContractId()).get();
         contract.setStatus(CONTRACT_STATUS.APPROVED);
         List<ProductEntity> products = productRepository.findAllByMerchantId(contract.getMerchant().getId());
-        Random random = new Random();
+//        Random random = new Random();
 
         // Shuffle the list using the Random instance
-        Collections.shuffle(products, random);
+//        Collections.shuffle(products, random);
 
         contract.setTotalTask(products.size());
         int taskNo = 1;

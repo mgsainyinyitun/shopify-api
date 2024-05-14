@@ -23,7 +23,6 @@ public class UserBankInfoCreateRequest {
 
     public UserBankInfoEntity toEntity(){
         UserBankInfoEntity userBank = new UserBankInfoEntity();
-        userBank.setAccount(account);
         userBank.setName(name);
         userBank.setIdentification(identification);
         userBank.setEmail(email);

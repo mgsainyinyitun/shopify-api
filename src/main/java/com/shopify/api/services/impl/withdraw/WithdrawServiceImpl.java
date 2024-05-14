@@ -14,6 +14,7 @@ import com.shopify.api.repository.bank.UserBankInfoRepository;
 import com.shopify.api.repository.user.UserRepository;
 import com.shopify.api.repository.withdraw.WithdrawRepository;
 import com.shopify.api.services.withdraw.WithdrawService;
+import com.shopify.api.utils.NumberFormatUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class WithdrawServiceImpl implements WithdrawService {
         UserEntity user = userRepository.findByUid(request.getUid());
         WithdrawEntity withdraw = withdrawRepository.findById(request.getWithdrawId()).get();
         withdraw.setStatus(WITHDRAW.ACCEPT);
-        user.setBalance(user.getBalance()-withdraw.getAmount());
+        user.setBalance(NumberFormatUtils.round(user.getBalance()-withdraw.getAmount(),3));
         withdrawRepository.save(withdraw);
         userRepository.save(user);
         return new AdminUserWithdrawApproveResponse(withdraw);

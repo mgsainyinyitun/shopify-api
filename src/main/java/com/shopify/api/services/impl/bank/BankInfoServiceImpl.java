@@ -1,5 +1,7 @@
 package com.shopify.api.services.impl.bank;
 
+import com.shopify.api.message.admin.bank.BankInfoCreateRequest;
+import com.shopify.api.message.admin.bank.BankInfoCreateResponse;
 import com.shopify.api.message.bank.BankInfoListRequest;
 import com.shopify.api.message.bank.BankInfoListResponse;
 import com.shopify.api.message.bank.BankInfoResponse;
@@ -30,5 +32,14 @@ public class BankInfoServiceImpl implements BankInfoService {
         }
         response.setBanks(banksInfo);
         return response;
+    }
+
+    @Override
+    public BankInfoCreateResponse createBankInfo(BankInfoCreateRequest request) {
+        BankInfoEntity bankInfo = new BankInfoEntity();
+        bankInfo.setName(request.getName());
+
+        bankInfoRepository.save(bankInfo);
+        return new BankInfoCreateResponse(bankInfo);
     }
 }

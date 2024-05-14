@@ -14,9 +14,7 @@ public class UserBankInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String account;
-
+    
     private String name;
 
     private String identification;

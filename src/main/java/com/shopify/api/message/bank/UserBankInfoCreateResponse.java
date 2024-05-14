@@ -26,7 +26,6 @@ public class UserBankInfoCreateResponse {
 
     public UserBankInfoCreateResponse(UserBankInfoEntity usrBankInfo){
         this.id = usrBankInfo.getId();
-        this.account = usrBankInfo.getAccount();
         this.name = usrBankInfo.getName();
         this.identification = usrBankInfo.getIdentification();
         this.setEmail(usrBankInfo.getEmail());

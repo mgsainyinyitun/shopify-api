@@ -37,14 +37,12 @@ public class UserBankInfoServiceImpl implements UserBankInfoService {
     }
 
     @Override
-    public UserBankInfoListResponse getAllUserBankInfos(UserBankInfoListRequest request) {
+    public UserBankInfoListResponse getAllUserBankInfos(UserBankInfoListRequest request,UserEntity user) {
         List<UserBankInfoResponse> bankInfoLst = new ArrayList<>();
         List<UserBankInfoEntity> dbBankInfoLst;
-        if(request.getUserId()!=null){
-            dbBankInfoLst =  userBankInfoRepository.findAllByUserId(request.getUserId());
-        } else{
-            dbBankInfoLst = userBankInfoRepository.findAll();
-        }
+
+        dbBankInfoLst =  userBankInfoRepository.findAllByUserId(user.getId());
+
         for(UserBankInfoEntity usrBankInfo : dbBankInfoLst){
             bankInfoLst.add(new UserBankInfoResponse(usrBankInfo));
         }
