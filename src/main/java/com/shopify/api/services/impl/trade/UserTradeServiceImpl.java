@@ -84,8 +84,8 @@ public class UserTradeServiceImpl implements UserTradeService {
 
         Double balance = user.getBalance();
         Double commission = (trade.getOrderPrice() * trade.getProduct().getCommission())/100;
-        user.setBalance(NumberFormatUtils.round( balance+commission,3));
-        user.setRevenue(NumberFormatUtils.round(user.getRevenue()+commission,3))  ;
+        user.setBalance(NumberFormatUtils.round( balance+commission,2));
+        user.setRevenue(NumberFormatUtils.round(user.getRevenue()+commission,2))  ;
         userRepository.save(user);
 
         return new UserTradeFinishedResponse(trade);

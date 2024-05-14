@@ -83,7 +83,7 @@ public class WithdrawServiceImpl implements WithdrawService {
         UserEntity user = userRepository.findByUid(request.getUid());
         WithdrawEntity withdraw = withdrawRepository.findById(request.getWithdrawId()).get();
         withdraw.setStatus(WITHDRAW.ACCEPT);
-        user.setBalance(NumberFormatUtils.round(user.getBalance()-withdraw.getAmount(),3));
+        user.setBalance(NumberFormatUtils.round(user.getBalance()-withdraw.getAmount(),2));
         withdrawRepository.save(withdraw);
         userRepository.save(user);
         return new AdminUserWithdrawApproveResponse(withdraw);

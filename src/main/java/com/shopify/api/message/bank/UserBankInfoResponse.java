@@ -29,6 +29,9 @@ public class UserBankInfoResponse {
         this.phone = usrBankInfo.getPhone();
         this.bank.setId(usrBankInfo.getBank().getId());
         this.bank.setName(usrBankInfo.getBank().getName());
-        this.bank.setImageId(usrBankInfo.getBank().getImage().getUuid());
+        if(usrBankInfo.getBank().getImage() != null){
+            this.bank.setImageId(usrBankInfo.getBank().getImage().getUuid());
+        }
+
     }
 }
