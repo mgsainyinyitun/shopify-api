@@ -35,7 +35,9 @@ public class UserBankInfoServiceImpl implements UserBankInfoService {
         if(usrBank != null){
             for(UserBankInfoEntity uBank : usrBank){
                 if(Objects.equals(uBank.getBank().getId(), request.getBankId())){
-                    throw new BankInfoAlreadyExistException("User already register with that name!");
+                    if(Objects.equals(request.getUserId(), uBank.getUser().getId())){
+                        throw new BankInfoAlreadyExistException("User already register with that name!");
+                    }
                 }
             }
         }
