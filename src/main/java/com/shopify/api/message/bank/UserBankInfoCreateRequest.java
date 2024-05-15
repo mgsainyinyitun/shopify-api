@@ -7,8 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserBankInfoCreateRequest {
-    private String account;
-
     private String name;
 
     private String identification;

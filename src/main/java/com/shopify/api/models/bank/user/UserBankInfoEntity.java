@@ -28,6 +28,6 @@ public class UserBankInfoEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "bank_info_id",unique = true)
+    @JoinColumn(name = "bank_info_id")
     private BankInfoEntity bank;
 }

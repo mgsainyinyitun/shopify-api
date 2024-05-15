@@ -42,16 +42,10 @@ public class UserTradeServiceImpl implements UserTradeService {
         ProductEntity product = productRepository.findById(request.getProductId()).get();
         int blCmp = user.getBalance().compareTo(product.getPrice());
         if(blCmp < 0){
-            throw new BalanceInsufficientException("User balance is insufficient for trade this product!");
+            throw new BalanceInsufficientException("User balance ( "+ user.getBalance()  + " Rs) is insufficient for trade this product ( "+product.getPrice()+" Rs ) ! Please recharge before complete this order");
         }else if(user.getMembership()<product.getRating()){
             throw new UserMembershipInsufficientException("User membership rating is insufficient for trade this product!");
         }
-//        TradeHistoryEntity tradeHistory = new TradeHistoryEntity();
-//        tradeHistory.setUser(user);
-//        tradeHistory.setProduct(product);
-//        tradeHistory.setTaskNumber(request.getTaskNumber());
-//        tradeHistory.setState(TRADING_STATE.PENDING);
-//        tradeHistory.setOrderPrice(product.getPrice());
 
 //          TradeHistoryEntity tradeHistory = tradeHistoryRepository.findCurrentTrades(user.getId(),request.getProductId()).get(0);
         TradeHistoryEntity tradeHistory = tradeHistoryRepository.findById(request.getTradeId()).get();
