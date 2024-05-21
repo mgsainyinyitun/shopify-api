@@ -84,6 +84,6 @@ public class ProductServiceImpl implements ProductService {
             throw  new EmptyResultDataAccessException(0);
         }
         ProductEntity product = productRepository.findById(dbTrades.get(0).getProduct().getId()).get();
-        return new TradeProductResponse(product,dbTrades.get(0).getId());
+        return new TradeProductResponse(product,dbTrades.get(0));
     }
 }

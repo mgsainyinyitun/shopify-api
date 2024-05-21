@@ -1,6 +1,8 @@
 package com.shopify.api.message.product;
 
 import com.shopify.api.models.product.ProductEntity;
+import com.shopify.api.models.trade.TradeHistoryEntity;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,12 +25,12 @@ public class TradeProductResponse {
 
     private Integer rating;
 
-    public TradeProductResponse(ProductEntity product,Long tradeId){
-        this.tradeId = tradeId;
+    public TradeProductResponse(ProductEntity product,TradeHistoryEntity trade){
+        this.tradeId = trade.getId();
         this.id = product.getId();
         this.name = product.getName();
         this.description = product.getDescription();
-        this.price = product.getPrice();
+        this.price = trade.getOrderPrice();
         this.commission = product.getCommission();
         this.uid = product.getUid();
         this.rating = product.getRating();
