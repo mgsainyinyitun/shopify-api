@@ -23,12 +23,15 @@ public class UserBankInfoResponse {
 
     public UserBankInfoResponse(UserBankInfoEntity usrBankInfo) {
         this.id = usrBankInfo.getId();
-        this.account = usrBankInfo.getAccount();
         this.name = usrBankInfo.getName();
         this.identification = usrBankInfo.getIdentification();
         this.email = usrBankInfo.getEmail();
         this.phone = usrBankInfo.getPhone();
         this.bank.setId(usrBankInfo.getBank().getId());
         this.bank.setName(usrBankInfo.getBank().getName());
+        if(usrBankInfo.getBank().getImage() != null){
+            this.bank.setImageId(usrBankInfo.getBank().getImage().getUuid());
+        }
+
     }
 }

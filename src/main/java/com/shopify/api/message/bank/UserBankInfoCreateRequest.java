@@ -7,8 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserBankInfoCreateRequest {
-    private String account;
-
     private String name;
 
     private String identification;
@@ -23,7 +21,6 @@ public class UserBankInfoCreateRequest {
 
     public UserBankInfoEntity toEntity(){
         UserBankInfoEntity userBank = new UserBankInfoEntity();
-        userBank.setAccount(account);
         userBank.setName(name);
         userBank.setIdentification(identification);
         userBank.setEmail(email);

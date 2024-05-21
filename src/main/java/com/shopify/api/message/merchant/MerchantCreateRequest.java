@@ -1,44 +1,24 @@
 package com.shopify.api.message.merchant;
 
 import com.shopify.api.models.merchant.MerchantEntity;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class MerchantCreateRequest {
 
 	private String name;
 	private String description;
-
 	private Integer rating;
-
-	public String getName() {
-		return name;
-	}
+	private  Double lowerLimit;
 	
 	public MerchantEntity toMerchantEntity() {
 		MerchantEntity merchant = new MerchantEntity();
 		merchant.setName(this.name);
 		merchant.setDescription(this.description);
 		merchant.setRating(this.rating);
+		merchant.setLowerLimit(this.lowerLimit);
 		return merchant;
-	}
-	
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Integer getRating() {
-		return rating;
-	}
-
-	public void setRating(Integer rating) {
-		this.rating = rating;
 	}
 }

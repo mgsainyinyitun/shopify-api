@@ -15,7 +15,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
 
     ProductEntity findFirstByMerchantId(Long id);
 
-    @Query( "SELECT p FROM ProductEntity p  WHERE p.id NOT IN (SELECT t.product.id FROM TradeHistoryEntity t WHERE t.user.id = :userId AND t.state='FINISHED')")
-    List<ProductEntity> findUnContractedProduct(@Param("userId") Long userId);
+    @Query( "SELECT p FROM ProductEntity p WHERE p.id IN (SELECT t.product.id FROM TradeHistoryEntity t WHERE t.user.id = :userId AND t.state='NOT_START' OR t.state='PENDING') AND p.merchant.id = :merchantId")
+    List<ProductEntity> findUnContractedProduct(@Param("userId") Long userId,@Param("merchantId") Long merchantId);
 
 }

@@ -14,9 +14,7 @@ public class UserBankInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String account;
-
+    
     private String name;
 
     private String identification;
@@ -30,6 +28,6 @@ public class UserBankInfoEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "bank_info_id",unique = true)
+    @JoinColumn(name = "bank_info_id")
     private BankInfoEntity bank;
 }

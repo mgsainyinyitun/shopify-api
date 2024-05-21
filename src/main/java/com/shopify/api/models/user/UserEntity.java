@@ -35,14 +35,14 @@ public class UserEntity {
 	@Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
 	private boolean freeze = false;
 
-	private int membership;
+	private int membership=1;
 
 	private String country;
 
 	private String language;
 
 	@Column(columnDefinition = "DOUBLE DEFAULT 0.0")
-	private Double balance = 0.0;
+	private Double balance = 10.0;
 
 	@Column(columnDefinition = "DOUBLE DEFAULT 0.0")
 	private Double revenue = 0.0;
@@ -56,11 +56,15 @@ public class UserEntity {
 		String uuid = UUID.randomUUID().toString();
 		String ID = String.valueOf(id);
 		String name = this.getClass().getSimpleName().replace("Entity","");
-		uid = name+ ID + uuid;
+		iuid = name+ ID + uuid;
+		uid = this.branch.getCode() + String.format("%06d",id);
 	}
 
 	@Column(name = "uid", nullable = true, unique = true)
 	private String uid;
+
+	@Column(name = "iuid",nullable = true,unique = true)
+	private String iuid;
 
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false, updatable = false)

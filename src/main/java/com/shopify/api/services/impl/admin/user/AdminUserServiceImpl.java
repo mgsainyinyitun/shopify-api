@@ -3,20 +3,15 @@ package com.shopify.api.services.impl.admin.user;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.shopify.api.message.admin.user.*;
+import com.shopify.api.utils.NumberFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shopify.api.exceptions.UsernameAlreadyTakenException;
-import com.shopify.api.message.admin.user.AdminUserCreateRequest;
-import com.shopify.api.message.admin.user.AdminUserCreateResponse;
-import com.shopify.api.message.admin.user.AdminUserDeleteReponse;
-import com.shopify.api.message.admin.user.AdminUserDeleteRequest;
-import com.shopify.api.message.admin.user.AdminUserListRequest;
-import com.shopify.api.message.admin.user.AdminUserListResponse;
-import com.shopify.api.message.admin.user.AdminUserUpdateRequest;
-import com.shopify.api.message.admin.user.AdminUserUpdateResponse;
 import com.shopify.api.models.branch.BranchEntity;
 import com.shopify.api.models.role.Role;
 import com.shopify.api.models.user.UserEntity;
@@ -117,6 +112,50 @@ public class AdminUserServiceImpl implements AdminUserService {
 		List<UserEntity> users = userRepository.findAll();
 		userList = AdminUserListResponse.UserEntityToUserListResponse(users);
 		return userList;
+	}
+
+	@Override
+	public  AdminUsersListResponse list(AdminUserListRequest request){
+		List<AdminUserResponse> users = new ArrayList<>();
+		AdminUsersListResponse res = new AdminUsersListResponse();
+		Role userRole = roleRepository.findByName("USER").get();
+		List<Role> roles = new ArrayList<>();
+		roles.add(userRole);
+		List<UserEntity> dbUsers=userRepository.findAllByRoles(roles);
+		for(UserEntity user:dbUsers){
+			users.add(new AdminUserResponse(user));
+		}
+		res.setUsers(users);
+		return res;
+	}
+
+	@Override
+	public AdminTradeUserResponse detail(AdminTradeUserRequest request) {
+		UserEntity user = userRepository.findByUid(request.getUid());
+		if(user==null){
+			throw new UsernameNotFoundException("User not found");
+		}
+		return new AdminTradeUserResponse(user);
+	}
+
+	@Override
+	public AdminUserBalanceIncreaseResponse increaseBalance(AdminUserBalanceIncreaseRequest request) {
+		UserEntity user = userRepository.findByUid(request.getUid());
+		user.setBalance(NumberFormatUtils.round( user.getBalance()+request.getAmount(),2));
+		userRepository.save(user);
+		AdminUserBalanceIncreaseResponse res = new AdminUserBalanceIncreaseResponse();
+		res.setBalance(user.getBalance());
+		return res;
+	}
+
+	@Override
+	public AdminUserMembershipChangeResponse membershipChange(AdminUserMembershipChangeRequest request) {
+		UserEntity user = userRepository.findByUid(request.getUid());
+		user.setMembership(request.getMembership());
+		userRepository.save(user);
+		AdminUserMembershipChangeResponse res = new AdminUserMembershipChangeResponse();
+		res.setMembership(user.getMembership());
+		return res;
 	}
 
 	/**

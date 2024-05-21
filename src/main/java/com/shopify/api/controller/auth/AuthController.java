@@ -7,12 +7,14 @@ import com.shopify.api.message.auth.LoginResponse;
 import com.shopify.api.message.auth.RegisterRequest;
 import com.shopify.api.message.auth.RegisterResponse;
 import com.shopify.api.message.error.ErrorMessageResponse;
+import com.shopify.api.security.UserUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -95,4 +97,19 @@ public class AuthController {
 		RegisterResponse response = new RegisterResponse(user);
 		return ResponseEntity.ok(response);
 	}
+
+	@PostMapping("check")
+	public ResponseEntity<?> check() {
+		try {
+            String username = UserUtils.getLoginUserName();
+            assert username != null;
+            if(username.equals("anonymousUser")){
+				throw  new UsernameNotFoundException("Invalid username and token!");
+			}
+			return ResponseEntity.ok(username);
+		}catch (Exception e){
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+		}
+	}
+
 }

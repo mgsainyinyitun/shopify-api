@@ -7,6 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TradeProductResponse {
+    private Long tradeId;
+
     private Long id;
 
     private String name;
@@ -21,7 +23,8 @@ public class TradeProductResponse {
 
     private Integer rating;
 
-    public TradeProductResponse(ProductEntity product){
+    public TradeProductResponse(ProductEntity product,Long tradeId){
+        this.tradeId = tradeId;
         this.id = product.getId();
         this.name = product.getName();
         this.description = product.getDescription();

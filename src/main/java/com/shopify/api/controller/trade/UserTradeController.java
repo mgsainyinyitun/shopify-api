@@ -1,10 +1,7 @@
 package com.shopify.api.controller.trade;
 
 import com.shopify.api.message.error.ErrorMessageResponse;
-import com.shopify.api.message.trade.UserTradeFinishedRequest;
-import com.shopify.api.message.trade.UserTradeFinishedResponse;
-import com.shopify.api.message.trade.UserTradeRequest;
-import com.shopify.api.message.trade.UserTradeResponse;
+import com.shopify.api.message.trade.*;
 import com.shopify.api.models.user.UserEntity;
 import com.shopify.api.security.UserUtils;
 import com.shopify.api.services.trade.UserTradeService;
@@ -41,6 +38,18 @@ public class UserTradeController {
         UserTradeFinishedResponse response;
         try {
             response = userTradeService.tradeFinished(request,getUser());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ErrorMessageResponse err = new ErrorMessageResponse("ERROR",e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        }
+    }
+
+    @GetMapping("/log")
+    public ResponseEntity<?> tradeLog(@ModelAttribute UserTradeLogRequest request) {
+        UserTradeLogListResponse response;
+        try {
+            response = userTradeService.tradeLogs(request,getUser());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             ErrorMessageResponse err = new ErrorMessageResponse("ERROR",e.getMessage());

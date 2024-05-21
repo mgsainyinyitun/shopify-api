@@ -1,6 +1,7 @@
 package com.shopify.api.controller.contract;
 
-
+import com.shopify.api.message.admin.user.AdminUserContractHistListRequest;
+import com.shopify.api.message.admin.user.AdminUserContractHistListResponse;
 import com.shopify.api.message.contract.*;
 import com.shopify.api.message.error.ErrorMessageResponse;
 import com.shopify.api.models.user.UserEntity;
@@ -10,9 +11,8 @@ import com.shopify.api.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/api/contract")
@@ -32,7 +32,8 @@ public class ContractController {
             UserEntity user = getUser();
             response = contractService.signContract(request,user);
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             ErrorMessageResponse err = new ErrorMessageResponse("ERROR", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
         }
@@ -42,7 +43,7 @@ public class ContractController {
     public ResponseEntity<?> getContract(@ModelAttribute ContractRequest request){
         try{
             ContractResponse response;
-            response = contractService.getCurrentContract(request);
+            response = contractService.getCurrentContract(request,getUser());
             return  ResponseEntity.ok(response);
         }catch (Exception e){
             ErrorMessageResponse err = new ErrorMessageResponse("ERROR", e.getMessage());
@@ -62,6 +63,18 @@ public class ContractController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
         }
     }
+
+    @GetMapping("/trade-user/contracts")
+    public ResponseEntity<?> userContracts(@ModelAttribute AdminUserContractHistListRequest request){
+        try {
+            AdminUserContractHistListResponse res = contractService.getContractsList(request);
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
+            ErrorMessageResponse err = new ErrorMessageResponse("ERROR", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        }
+    }
+
 
     UserEntity getUser(){
         UserEntity user;

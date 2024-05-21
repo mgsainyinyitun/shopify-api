@@ -3,11 +3,14 @@ package com.shopify.api.services.impl.product;
 import com.shopify.api.message.product.*;
 import com.shopify.api.models.merchant.MerchantEntity;
 import com.shopify.api.models.product.ProductEntity;
+import com.shopify.api.models.trade.TradeHistoryEntity;
 import com.shopify.api.models.user.UserEntity;
+import com.shopify.api.repository.TradeHistoryRepository;
 import com.shopify.api.repository.merchant.MerchantRepository;
 import com.shopify.api.repository.product.ProductRepository;
 import com.shopify.api.services.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,6 +24,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     MerchantRepository merchantRepository;
+    @Autowired
+    private TradeHistoryRepository tradeHistoryRepository;
 
     @Override
     public ProductCreateResponse create(ProductCreateRequest request) {
@@ -74,8 +79,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public TradeProductResponse tradeProduct(TradeProductRequest request, UserEntity user) {
-//        ProductEntity product = productRepository.findFirstByMerchantId(request.getMerchantId());
-        ProductEntity product = productRepository.findUnContractedProduct(user.getId()).get(0);
-        return new TradeProductResponse(product);
+        List<TradeHistoryEntity> dbTrades = tradeHistoryRepository.findCurrentTrades(user.getId());
+        if(dbTrades.isEmpty()){
+            throw  new EmptyResultDataAccessException(0);
+        }
+        ProductEntity product = productRepository.findById(dbTrades.get(0).getProduct().getId()).get();
+        return new TradeProductResponse(product,dbTrades.get(0).getId());
     }
 }

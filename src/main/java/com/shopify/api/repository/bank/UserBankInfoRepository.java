@@ -9,4 +9,6 @@ public interface UserBankInfoRepository extends JpaRepository<UserBankInfoEntity
 
     List<UserBankInfoEntity> findAllByUserId(Long userId);
 
+    List<UserBankInfoEntity> findByName(String name);
+
 }

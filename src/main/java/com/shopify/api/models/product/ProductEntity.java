@@ -12,7 +12,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.shopify.api.models.image.ImageEntity;
 import com.shopify.api.models.merchant.MerchantEntity;
 
-
 @Getter
 @Setter
 @Entity

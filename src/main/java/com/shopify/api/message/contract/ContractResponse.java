@@ -21,6 +21,8 @@ public class ContractResponse {
 
     private Integer currentTask;
 
+    private Integer finishedTasks;
+
     private LocalDateTime requestTime;
 
     public ContractResponse(ContractEntity contract){
@@ -30,5 +32,6 @@ public class ContractResponse {
         this.requestTime = contract.getCreatedAt();
         this.totalTasks = contract.getTotalTask();
         this.currentTask = contract.getCurrentTask();
+        this.finishedTasks = contract.getFinishedTask();
     }
 }
