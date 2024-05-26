@@ -8,9 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.shopify.api.models.user.UserEntity;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<UserEntity,Long> {
-	Optional<UserEntity> findByUsername(String username);
+	
+	@Query( "SELECT u FROM UserEntity u where u.username=:username or u.phone = :username")
+	Optional<UserEntity> findByUsername(@Param("username") String username);
+	
 	UserEntity findByUid(String uid);
 	Boolean existsByUsername(String username);
 
